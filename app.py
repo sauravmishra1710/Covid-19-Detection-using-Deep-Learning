@@ -18,7 +18,7 @@ from werkzeug.utils import secure_filename
 app = Flask(__name__)
 
 # Model saved with Keras model.save()
-MODEL_PATH ='Custom_Covid-19.h5'
+MODEL_PATH ='Covid-19_With_EfficientNet_B0.h5'
 
 # Load your trained model
 model = load_model(MODEL_PATH)
@@ -29,23 +29,20 @@ model = load_model(MODEL_PATH)
 def model_predict(img_path, model):
     img = image.load_img(img_path, target_size=(224, 224))
 
-    # Preprocessing the image
-    x = image.img_to_array(img)
+    # Image Preprocessing
+    img = image.img_to_array(img)
     
-    x=x/255
-    x = np.expand_dims(x, axis=0)
-    
+    img = img/255
+    img = np.expand_dims(img, axis=0)
 
-    preds = model.predict_classes(x)
+    pred_class = model.predict_classes(x)
     
-    if preds==0:
-        preds="Negative"
-    elif preds==1:
-        preds="Positive"
+    if pred_class==0:
+        pred_class="Covid Negative"
+    elif pred_class==1:
+        pred_class="Covid Positive"
 
-    
-    
-    return preds
+    return pred_class
 
 
 @app.route('/', methods=['GET'])
