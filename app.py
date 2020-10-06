@@ -27,10 +27,10 @@ model = load_model(MODEL_PATH)
 
 
 def model_predict(img_path, model):
-    img = image.load_img(img_path, target_size=(224, 224))
+    xray = image.load_img(img_path, target_size=(224, 224))
 
     # Image Preprocessing
-    img = image.img_to_array(img)
+    img = image.img_to_array(xray)
     
     img = img/255
     img = np.expand_dims(img, axis=0)
